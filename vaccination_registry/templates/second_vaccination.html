@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Second Vaccination</h1>
+<form action="{% url 'secondvaccination' user_details.user_id %}" method="post">
+    {% csrf_token %}
+    First Name: {{user_details.user_id}}<br>
+    Last Name: {{user_details.last_name}}<br>
+    Date of Birth: {{user_details.dob}}<br>
+    Gender: {{user_details.gender}}<br> 
+    Date of first Vaccination: {{user_details.date_of_vaccination}}<br>
+    Date of Second Vaccination: {{form.date_of_second_vaccination}}<br>
+    Any effects Noted:{{form.effects}}
+    <div class="tab-pane" id="thruee">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>
+{% endblock %}

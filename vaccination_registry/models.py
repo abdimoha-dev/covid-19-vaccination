@@ -44,4 +44,10 @@ class Schedule(models.Model):
     user = models.ForeignKey(Person, on_delete=models.CASCADE)
     date_vaccinated = models.DateField() 
     next_vaccination_date = models.DateField() 
+
+class SecondVaccination(models.Model):
+    user = models.ForeignKey(Person, on_delete=models.CASCADE)
+    date_of_first_vaccination = models.DateField()
+    date_of_second_vaccination = models.DateField() 
+    effects = models.CharField(max_length=50, default="kings", null=True)
     

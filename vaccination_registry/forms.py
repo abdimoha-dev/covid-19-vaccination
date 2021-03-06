@@ -27,3 +27,10 @@ class PersonForm(forms.Form):
     comorbidity = forms.CharField(label='Comorbidity')
     date_of_vaccination = forms.DateField(
         label='Date Of Vaccination', widget=DateInput)
+
+
+class SecondVaccinationForm(forms.Form):
+    
+    date_of_second_vaccination = forms.DateField(
+        label='Date Of second Vaccination', widget=DateInput)
+    effects = forms.CharField(label='Second Vaccination', max_length=50)

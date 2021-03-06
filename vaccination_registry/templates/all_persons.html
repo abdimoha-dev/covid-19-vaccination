@@ -1,53 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}<div class="card-body">
-    <div class="table-responsive">
-      <table class="table">
-        <thead class=" text-primary">
-          <th>
-            First Name
-          </th>
-          <th>
-            Last Name
-          </th>
-          <th>
+  <div class="table-responsive">
+    <table class="table">
+      <thead class=" text-primary">
+        <th>
+          First Name
+        </th>
+        <th>
+          Last Name
+        </th>
+        <th>
           Occupation
-          </th>
-          <th>
-              gender
-          </th>
-          <th>
-            identifier
+        </th>
+        <th>
+          gender
+        </th>
+        <th>
+          identifier
         </th>
         <th>
           Delete
-      </th>
-      <th>
-        Update
-    </th>
-    <th>
-      View User
-  </th>
+        </th>
+        <th>
+          Update
+        </th>
+        <th>
+          View User
+        </th>
 
-        </thead>
-        <tbody>
-          <tr>
-              {% for person in persons %}
-              <td>{{person.first_name}}</td>
-              <td>{{person.last_name}}</td>
-              <td>{{person.occupation}}</td>
-              <td>{{person.gender}}</td>
-              <td>{{person.user_id}}</td>
+      </thead>
+      <tbody>
+        <tr>
+          {% for person in persons %}
+          <td>{{person.first_name}}</td>
+          <td>{{person.last_name}}</td>
+          <td>{{person.occupation}}</td>
+          <td>{{person.gender}}</td>
+          <td>{{person.user_id}}</td>
 
 
-              <td><a href="{% url 'delete_person' person.user_id %}">Delete</a></td> 
-              <td><a href="{% url 'edit_person' person.user_id %}">Update</a></td>
-              <td><a href="#!">View</a></td> 
-                         
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+          <td><a href="{% url 'delete_person' person.user_id %}">Delete</a></td>
+          <td><a href="{% url 'edit_person' person.user_id %}">Update</a></td>
+          <td><a href="#!">View</a></td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+</div>
 
-  {% endblock %}
+{% endblock %}

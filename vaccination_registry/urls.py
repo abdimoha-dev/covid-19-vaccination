@@ -12,5 +12,6 @@ urlpatterns = [
     path('edit/<str:person_id>', views.edit_person, name='edit_person'),
     path('all', views.all_vaccinated_persons, name='all'),
     path('delete_person/<str:person_id>', views.delete_person, name= 'delete_person'),
-    path('search/', views.search_persons, name='search')
+    path('search/', views.search_persons, name='search'),
+    path('secondvaccination/<str:user_id>', views.second_vaccination, name='secondvaccination')
 ]

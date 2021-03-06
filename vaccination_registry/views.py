@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
 from django.http import HttpResponse, Http404, FileResponse
 
-from .models import Person, Schedule
+from .models import Person, Schedule,SecondVaccination
 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from datetime import datetime, timedelta
 
-from .forms import PersonForm
+from .forms import PersonForm, SecondVaccinationForm
 
 from covidvaccination.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
@@ -79,7 +79,6 @@ def add_person(request):
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
-
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             gender = request.POST.get('gender')
@@ -225,10 +224,11 @@ def delete_person(request, person_id):
         raise Http404("person does not exist")
 
 
+# search for vaccinated persons
 def search_persons(request):
     if request.method == 'GET':
         search_parameter = request.GET.get('search_parameter')
-        
+
         persons = Person.objects.filter(Q(first_name__icontains=search_parameter) | Q(
             last_name__icontains=search_parameter) | Q(email__icontains=search_parameter) | Q(occupation__icontains=search_parameter))
         context = {
@@ -237,3 +237,30 @@ def search_persons(request):
 
         return render(request, 'all_persons.html', context)
         # query =request.GET.get('q')
+
+# add 2nd vaccination
+def second_vaccination(request, user_id):
+    if request.method == 'POST':
+        form = SecondVaccinationForm(request.POST)
+        if form.is_valid():
+            user_details = Person.objects.get(pk=user_id)
+            
+            date_of_first_vaccination = user_details.date_of_vaccination
+            date_of_second_vaccination = request.POST.get('date_of_second_vaccination')
+            effectss = request.POST.get('effects')
+
+            second = SecondVaccination(
+                user=Person.objects.get(pk=user_id),
+                date_of_first_vaccination=date_of_first_vaccination,
+                date_of_second_vaccination=date_of_second_vaccination,
+                effects=effectss,
+            )
+            second.save()
+            
+        return render(request, 'index.html')
+            
+
+    else:
+        form = SecondVaccinationForm()
+        user_details = Person.objects.get(pk=user_id)
+        return render(request, 'second_vaccination.html', {'form': form, 'user_details': user_details})
