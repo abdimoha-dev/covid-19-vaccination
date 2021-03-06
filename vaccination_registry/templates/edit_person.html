@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+<h1>Edit person</h1>
 <form action="{% url 'edit_person' person_id=person.id %}" method="post">
-    {% csrf_token %}
 
+    {% csrf_token %}
     <label for="firstname">First Name</label>
     <input type="text" class="form-control" name="firstname" value="{{person.first_name}}" placeholder="Enter first name">
     <label for="secondname">Last Name</label>
@@ -23,7 +24,6 @@
     <input type="text" class="form-control" name="comorbidity" value="{{person.comorbidity}}" placeholder="Comorbidity">
     <label for="VaccineAdministered">Vaccine Administered</label>
     <input type="text" class="form-control" name="vaccineAdministered" value="{{person.vaccine_name}}" placeholder="Vaccine Administered">
-
 
     <div class="tab-pane" id="thruee">
         <button type="submit" class="btn btn-success">Submit</button>

@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
-from .models import Person
+from django.http import HttpResponse, Http404
 
+from .models import Person
 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
-from django.http import HttpResponse, Http404
+
 
 
 # home
