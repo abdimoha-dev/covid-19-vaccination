@@ -264,3 +264,12 @@ def second_vaccination(request, user_id):
         form = SecondVaccinationForm()
         user_details = Person.objects.get(pk=user_id)
         return render(request, 'second_vaccination.html', {'form': form, 'user_details': user_details})
+
+# persons who have completed both vaccinations
+def attended_first_second_vaccination(request):
+    results = Person.objects.filter(secondvaccination__date_of_first_vaccination__isnull=False)
+    for result in results:
+        print(result)
+    return render(request, 'index.html')
+    
+  

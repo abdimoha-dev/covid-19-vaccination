@@ -13,5 +13,6 @@ urlpatterns = [
     path('all', views.all_vaccinated_persons, name='all'),
     path('delete_person/<str:person_id>', views.delete_person, name= 'delete_person'),
     path('search/', views.search_persons, name='search'),
-    path('secondvaccination/<str:user_id>', views.second_vaccination, name='secondvaccination')
+    path('secondvaccination/<str:user_id>', views.second_vaccination, name='secondvaccination'),
+    path('relatedvaccinations', views.attended_first_second_vaccination, name ='related'),
 ]
