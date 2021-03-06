@@ -86,4 +86,36 @@ def add_person(request):
     else:
         return render(request, 'add_person.html')
 
-  
+# Edit a vaccinated person details
+def edit_person(request, person_id):
+    if request.method == 'GET':
+        person = Person.objects.get(pk=person_id)
+        context = {'person': person}
+        return render(request, 'edit_person.html', context)
+
+    else:
+        person_age = 16
+        first_name = request.POST.get('firstname')
+        last_name = request.POST.get('lastname')
+        gender = request.POST.get('gender')
+        dob = request.POST.get('dob')
+        age = person_age
+        place_of_residence = request.POST.get('placeofresidence')
+        phone_number = request.POST.get('phonenumber')
+        email = request.POST.get('email')
+        occupation = request.POST.get('occupation')
+        vaccine_name = request.POST.get('vaccineAdministered')
+        comorbidity = request.POST.get('comorbidity')
+
+        Person.objects.filter(id=person_id).update(first_name=first_name,
+                                                   last_name=last_name,
+                                                   gender=gender,
+                                                   dob=dob,
+                                                   age=age,
+                                                   place_of_residence=place_of_residence,
+                                                   phone_number=phone_number,
+                                                   email=email,
+                                                   occupation=occupation,
+                                                   vaccine_name=vaccine_name,
+                                                   comorbidity=comorbidity)
+        return render(request, 'add_person.html')  
