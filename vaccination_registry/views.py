@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, FileResponse
 
 from .models import Person, Schedule
 
@@ -11,8 +11,22 @@ from datetime import datetime, timedelta
 
 from .forms import PersonForm
 
+from covidvaccination.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
+import reportlab
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from pdf_annotate import PdfAnnotator, Appearance, Location
+
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 # home
+
+
 @login_required(login_url='login')
 def home(request):
     return render(request, 'sidebar.html')
@@ -100,9 +114,53 @@ def add_person(request):
             second_vaccination = Schedule(
                 user=Person.objects.get(pk=person.user_id),
                 date_vaccinated=date_of_vaccination,
-                next_vaccination_date= next_vaccination_date
+                next_vaccination_date=next_vaccination_date
             )
             second_vaccination.save()
+            
+            #pdf 
+            template_path = 'vaccination_card.html'
+            context = {'myvar': 'this is your template context'}
+            # Create a Django response object, and specify content_type as pdf
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'filename="vaccination_card.pdf"'
+            # find the template and render it.
+            template = get_template(template_path)
+            html = template.render(context)
+
+            # create a pdf
+            pisa_status = pisa.CreatePDF(
+                html, dest=response)
+            # if error then show some funy view
+            if pisa_status.err:
+                return HttpResponse('We had some errors <pre>' + html + '</pre>')
+            return response
+
+            # send mail
+            # subject = "welcome to emails"
+            # message = "Testing This Email"
+            # recepient = email
+            # send_mail(subject,
+            #             message,
+            #             'chemianhealth@gmail.com',
+            #             [recepient],
+            #             fail_silently= True)
+
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
+            buffer = BytesIO()
+            p = canvas.Canvas(buffer)
+            p.drawString(100, 100, "Hello world.")
+
+            p.showPage
+            p.save()
+
+            # pdf =buffer.getvalue()
+            # buffer.close()
+            # response.write(pdf)
+            buffer.seek(0)
+
+            return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
 
             return render(request, 'index.html')
 
@@ -110,9 +168,8 @@ def add_person(request):
         form = PersonForm()
         return render(request, 'add_person.html', {'form': form})
 
+
 # Edit a vaccinated person details
-
-
 def edit_person(request, person_id):
     if request.method == 'GET':
         person = Person.objects.get(pk=person_id)
