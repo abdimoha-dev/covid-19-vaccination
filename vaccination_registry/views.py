@@ -120,3 +120,13 @@ def edit_person(request, person_id):
                                                    vaccine_name=vaccine_name,
                                                    comorbidity=comorbidity)
         return render(request, 'add_person.html')  
+
+# fetch all vaccinated person
+def all_vaccinated_persons(request):
+    persons = Person.objects.all()
+    
+    context = {
+        'persons': persons,
+    }
+    return render(request, 'all_persons.html',context)
+    
