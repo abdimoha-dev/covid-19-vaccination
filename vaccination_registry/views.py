@@ -129,4 +129,12 @@ def all_vaccinated_persons(request):
         'persons': persons,
     }
     return render(request, 'all_persons.html',context)
-    
+
+# delete vaccinated user using ID
+def delete_person(request, person_id):
+    try:
+        person = Person.objects.filter(pk=person_id)
+        person.delete()
+        return all(request)
+    except Person.DoesNotExist:
+        raise Http404("person does not exist")
