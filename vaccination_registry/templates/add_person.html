@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="add_person" method="post">
+    {% csrf_token %}
+
+    <label for="firstname">First Name</label>
+    <input type="text" class="form-control" name="firstname" placeholder="Enter first name">
+    <label for="secondname">Last Name</label>
+    <input type="text" class="form-control" name="lastname" placeholder="Enter last name">
+    <label for="firstname">Gender</label>
+    <input type="text" class="form-control" name="gender" placeholder="Gender">
+    <label for="dob">Date of birth</label>
+    <input type="text" class="form-control" name="dob" placeholder="date of birth">
+    <label for="firstname">Place of residence</label>
+    <input type="text" class="form-control" name="placeofresidence" placeholder="Place of residence">
+    <label for="phoneNumber">phone Number</label>
+    <input type="text" class="form-control" name="phonenumber" placeholder="phone Number">
+    <label for="emailaddress">email address</label>
+    <input type="text" class="form-control" name="email" placeholder="enter email">
+    <label for="Occupation">Occupation</label>
+    <input type="text" class="form-control" name="occupation" placeholder="Occupation">
+    <label for="comorbidity">Comorbidity</label>
+    <input type="text" class="form-control" name="comorbidity" placeholder="Comorbidity">
+    <label for="VaccineAdministered">Vaccine Administered</label>
+    <input type="text" class="form-control" name="vaccineAdministered" placeholder="Vaccine Administered">
+
+
+    <div class="tab-pane" id="thruee">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>
+{% endblock %}
