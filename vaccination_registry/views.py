@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
 from django.http import HttpResponse, Http404, FileResponse
 
-from .models import Person, Schedule,SecondVaccination
+from .models import Person, Schedule, SecondVaccination
 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
@@ -26,15 +26,11 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 # home
-
-
 @login_required(login_url='login')
 def home(request):
     return render(request, 'sidebar.html')
 
 # login
-
-
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -73,7 +69,7 @@ def user_logout(request):
 
 # create vaccinated user
 
-
+@login_required(login_url='login')
 def add_person(request):
     person_age = 10
     if request.method == 'POST':
@@ -91,6 +87,8 @@ def add_person(request):
             vaccine_name = request.POST.get('vaccine_name')
             comorbidity = request.POST.get('comorbidity')
             date_of_vaccination = request.POST.get('date_of_vaccination')
+            photo=form.cleaned_data.get("photo") 
+            
 
             person = Person(first_name=first_name,
                             last_name=last_name,
@@ -118,12 +116,12 @@ def add_person(request):
             )
             second_vaccination.save()
 
-            # pdf
+            # Generate vaccination card
             template_path = 'vaccination_card.html'
             context = {'myvar': 'this is your template context'}
             # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = 'filename="vaccination_card.pdf"'
+            response['Content-Disposition'] = 'attachment; filename="vaccination_card.pdf"'
             # find the template and render it.
             template = get_template(template_path)
             html = template.render(context)
@@ -131,7 +129,9 @@ def add_person(request):
             # create a pdf
             pisa_status = pisa.CreatePDF(
                 html, dest=response)
-            # if error then show some funy view
+            
+            return redirect('home')
+            # if error 
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
             return response
@@ -145,22 +145,6 @@ def add_person(request):
             #             'chemianhealth@gmail.com',
             #             [recepient],
             #             fail_silently= True)
-
-            response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = 'inline; filename="mypdf.pdf"'
-            buffer = BytesIO()
-            p = canvas.Canvas(buffer)
-            p.drawString(100, 100, "Hello world.")
-
-            p.showPage
-            p.save()
-
-            # pdf =buffer.getvalue()
-            # buffer.close()
-            # response.write(pdf)
-            buffer.seek(0)
-
-            return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
 
             return render(request, 'index.html')
 
@@ -219,12 +203,14 @@ def delete_person(request, person_id):
     try:
         person = Person.objects.filter(pk=person_id)
         person.delete()
-        return all(request)
+    
+        return redirect('all')
     except Person.DoesNotExist:
         raise Http404("person does not exist")
 
 
 # search for vaccinated persons
+@login_required(login_url='login')
 def search_persons(request):
     if request.method == 'GET':
         search_parameter = request.GET.get('search_parameter')
@@ -239,14 +225,16 @@ def search_persons(request):
         # query =request.GET.get('q')
 
 # add 2nd vaccination
+@login_required(login_url='login')
 def second_vaccination(request, user_id):
     if request.method == 'POST':
         form = SecondVaccinationForm(request.POST)
         if form.is_valid():
             user_details = Person.objects.get(pk=user_id)
-            
+
             date_of_first_vaccination = user_details.date_of_vaccination
-            date_of_second_vaccination = request.POST.get('date_of_second_vaccination')
+            date_of_second_vaccination = request.POST.get(
+                'date_of_second_vaccination')
             effectss = request.POST.get('effects')
 
             second = SecondVaccination(
@@ -256,20 +244,31 @@ def second_vaccination(request, user_id):
                 effects=effectss,
             )
             second.save()
-            
+
         return render(request, 'index.html')
-            
 
     else:
         form = SecondVaccinationForm()
         user_details = Person.objects.get(pk=user_id)
+        # date_difference = datetime.now().date() - user_details.date_of_vaccination
+        # print('kichwa',date_difference[:2] )
+        # if date_difference[:2] < 4:
+        #     return render(request, 'index.html')
+        # else:
         return render(request, 'second_vaccination.html', {'form': form, 'user_details': user_details})
 
 # persons who have completed both vaccinations
+@login_required(login_url='login')
 def attended_first_second_vaccination(request):
-    results = Person.objects.filter(secondvaccination__date_of_first_vaccination__isnull=False)
+    results = Person.objects.filter(
+        secondvaccination__date_of_first_vaccination__isnull=False)
     for result in results:
         print(result)
     return render(request, 'index.html')
+
+def view_person(request, user_id):
+    if request.method == 'GET':
+        user_details = Person.objects.get(pk=user_id)
+        context = {'user_details': user_details}
+        return render(request, 'view_person.html', context)
     
-  

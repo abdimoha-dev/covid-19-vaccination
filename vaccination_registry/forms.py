@@ -10,7 +10,7 @@ VACCINE_CHOICES = (('AstraZeneca', 'AstraZeneca'),
 class DateInput(forms.DateInput):
     input_type = 'date'
 
-
+from django.core.files.uploadedfile import SimpleUploadedFile
 class PersonForm(forms.Form):
     first_name = forms.CharField(label='First Name', max_length=50)
     last_name = forms.CharField(label='Last Name', max_length=50)

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{user_details.first_name}} {{user_details.last_name}}</h1>
+<form action="{% url 'secondvaccination' user_details.user_id %}" method="post">
+    {% csrf_token %}
+    User ID: {{user_details.user_id}}<br>
+    Last Name: {{user_details.last_name}}<br>
+    Date of Birth: {{user_details.dob}}<br>
+    Gender: {{user_details.gender}}<br> 
+    Date of first Vaccination: {{user_details.date_of_vaccination}}<br>
+</form>
+{% endblock %}

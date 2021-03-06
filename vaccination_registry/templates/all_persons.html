@@ -37,11 +37,9 @@
           <td>{{person.occupation}}</td>
           <td>{{person.gender}}</td>
           <td>{{person.user_id}}</td>
-
-
           <td><a href="{% url 'delete_person' person.user_id %}">Delete</a></td>
           <td><a href="{% url 'edit_person' person.user_id %}">Update</a></td>
-          <td><a href="#!">View</a></td>
+          <td><a href="{% url 'view_person' person.user_id %}">View</a></td>
 
         </tr>
         {% endfor %}
