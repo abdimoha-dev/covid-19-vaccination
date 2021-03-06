@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1>Create vaccinated person</h1>
 <form action="add_person" method="post">
 
     {% csrf_token %}
-    <label for="firstname">First Name</label>
+    First Name: {{form.first_name}}<br>
+    Last Name: {{form.last_name}}<br>
+    Gender : {{form.gender}}<br>
+    Date of Birth: {{form.dob}}<br>
+    place Of Residence: {{form.place_of_residence}}<br>
+    Phone Number: {{form.phone_number}}<br>
+    Email: {{form.email}}<br>
+    Occupation: {{form.occupation}}<br>
+    Vaccine Name: {{form.vaccine_name}}<br>
+    Commorbidity: {{form.comorbidity}}<br>
+    Date Of Vaccination: {{form.date_of_vaccination}}<br>
+
+
+    <!-- <label for="firstname">First Name</label>
     <input type="text" class="form-control" name="firstname" placeholder="Enter first name">
     <label for="secondname">Last Name</label>
     <input type="text" class="form-control" name="lastname" placeholder="Enter last name">
@@ -24,9 +38,12 @@
     <input type="text" class="form-control" name="comorbidity" placeholder="Comorbidity">
     <label for="VaccineAdministered">Vaccine Administered</label>
     <input type="text" class="form-control" name="vaccineAdministered" placeholder="Vaccine Administered">
-
+    <label for="Date of Vaccination">Date of Vaccination </label>
+    <input type="text" class="form-control" name="dateofvaccination" placeholder="Date of Vaccination"> -->
     <div class="tab-pane" id="thruee">
         <button type="submit" class="btn btn-success">Submit</button>
     </div>
 </form>
+
+
 {% endblock %}

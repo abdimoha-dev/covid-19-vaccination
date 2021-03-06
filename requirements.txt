@@ -1,0 +1,2 @@
+# pip3 install django-phonenumber-field[phonenumbers]
+pip install django-phone-field
