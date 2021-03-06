@@ -18,6 +18,15 @@
           <th>
             identifier
         </th>
+        <th>
+          Delete
+      </th>
+      <th>
+        Update
+    </th>
+    <th>
+      View User
+  </th>
 
         </thead>
         <tbody>
@@ -29,8 +38,10 @@
               <td>{{person.gender}}</td>
               <td>{{person.user_id}}</td>
 
-              <td><a href="{% url 'delete_person' person.id %}">Delete</a></td> 
-              <td><a href="{% url 'edit_person' person.id %}">Update</a></td> 
+
+              <td><a href="{% url 'delete_person' person.user_id %}">Delete</a></td> 
+              <td><a href="{% url 'edit_person' person.user_id %}">Update</a></td>
+              <td><a href="#!">View</a></td> 
                          
           </tr>
           {% endfor %}

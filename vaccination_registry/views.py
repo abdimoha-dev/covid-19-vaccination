@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
 from django.http import HttpResponse, Http404, FileResponse
 
@@ -117,8 +118,8 @@ def add_person(request):
                 next_vaccination_date=next_vaccination_date
             )
             second_vaccination.save()
-            
-            #pdf 
+
+            # pdf
             template_path = 'vaccination_card.html'
             context = {'myvar': 'this is your template context'}
             # Create a Django response object, and specify content_type as pdf
@@ -222,3 +223,17 @@ def delete_person(request, person_id):
         return all(request)
     except Person.DoesNotExist:
         raise Http404("person does not exist")
+
+
+def search_persons(request):
+    if request.method == 'GET':
+        search_parameter = request.GET.get('search_parameter')
+        
+        persons = Person.objects.filter(Q(first_name__icontains=search_parameter) | Q(
+            last_name__icontains=search_parameter) | Q(email__icontains=search_parameter) | Q(occupation__icontains=search_parameter))
+        context = {
+            'persons': persons
+        }
+
+        return render(request, 'all_persons.html', context)
+        # query =request.GET.get('q')
