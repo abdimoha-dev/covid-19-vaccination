@@ -266,6 +266,7 @@ def attended_first_second_vaccination(request):
         print(result)
     return render(request, 'index.html')
 
+@login_required(login_url='login')
 def view_person(request, user_id):
     if request.method == 'GET':
         user_details = Person.objects.get(pk=user_id)
