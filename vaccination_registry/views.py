@@ -26,6 +26,9 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+
+
+
 # home
 
 
@@ -309,3 +312,60 @@ def small_stats(request):
     print(vaccine_type_administered)
     # xyz
 
+
+# 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PersonSerializer
+
+@api_view(['GET'])
+def apiOverView(request):
+    api_urls = {
+        'list' : '/vaccinated-list/',
+        'detail' : '/person/detail/<str:pk>/',
+        'create' : '/create/person/',
+        'update' : '/vaccinated/update/<str:pk>/',
+        'delete' : '/vaccinated/delete/<str:pk>/',
+    }
+    
+    return Response(api_urls)
+
+# Get list of all vaccinated persons
+@api_view(['GET'])
+def vaccinatedList(request):
+    persons = Person.objects.all()
+    serializer = PersonSerializer(persons, many=True)
+    return Response(serializer.data)
+   
+# Fetch individual persons details 
+@api_view(['GET'])
+def personDetails(request, pk):
+    persons = Person.objects.get(user_id=pk)
+    serializer = PersonSerializer(persons, many=False)
+    return Response(serializer.data)
+
+# create person using POST method
+@api_view(['POST'])
+def personCreate(request):
+    serializer = PersonSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        
+    return Response(serializer.data)
+
+# update person using user_id
+@api_view(['POST'])
+def updatePerson(request, pk):
+    person = Person.objects.get(user_id=pk)
+    serializer = PersonSerializer(instance=person, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def personDelete(request,pk):
+    person = Person.objects.get(user_id=pk) 
+    person.delete()
+    
+    return Response('Person deleted successfully')
