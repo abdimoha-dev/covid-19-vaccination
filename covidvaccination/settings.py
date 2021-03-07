@@ -1,6 +1,9 @@
 from pathlib import Path
 import os
 
+#security features
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,7 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'eav&ncb80+i@n8c5p83ogl^fss&a&_!y6q^5@9h12hr=y7g+_g'
+# SECRET_KEY = 'eav&ncb80+i@n8c5p83ogl^fss&a&_!y6q^5@9h12hr=y7g+_g'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,8 +79,8 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cdc',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': config('DATABASE_USER'), #'postgres',
+        'PASSWORD': config('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 5432,
     }

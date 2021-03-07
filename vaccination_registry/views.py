@@ -26,6 +26,11 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+# Django-rest imports
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PersonSerializer
+
 
 
 
@@ -309,15 +314,28 @@ def small_stats(request):
     scheduled_vaccinations = Schedule.objects.all().count()
     vaccine_type_administered = Person.objects.values('vaccine_name').distinct().count()
     
-    print(vaccine_type_administered)
+    context = {
+        'Total_vaccinated':Total_vaccinated,
+        'men_vaccinated' : men_vaccinated,
+        'female_vaccinated' : female_vaccinated,
+        'adults_vaccinated' : adults_vaccinated,
+        'children_vaccinated' : children_vaccinated,
+        'scheduled_vaccinations': scheduled_vaccinations,
+        'vaccine_type_administered' :vaccine_type_administered
+        
+        
+        
+        
+    }
+    return render(request,'small_stats.html', context)
     # xyz
 
 
-# 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import PersonSerializer
+###################################
+###### Django Rest APIs############
+################################### 
 
+# Get all available APIs
 @api_view(['GET'])
 def apiOverView(request):
     api_urls = {
