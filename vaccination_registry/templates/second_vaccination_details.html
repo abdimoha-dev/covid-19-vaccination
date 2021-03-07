@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block content %}<div class="card-body">
+{% block content %}
+<div class="card-body">
   <div class="table-responsive">
     <table class="table">
       <thead class=" text-primary">
@@ -40,7 +41,6 @@
           <td><a href="{% url 'delete_person' person.user_id %}">Delete</a></td>
           <td><a href="{% url 'edit_person' person.user_id %}">Update</a></td>
           <td><a href="{% url 'view_person' person.user_id %}">View</a></td>
-          <td><a href="{% url 'secondvaccination' person.user_id %}">Administer 2nd Vaccination</a></td>
 
         </tr>
         {% endfor %}

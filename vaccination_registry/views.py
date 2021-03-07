@@ -118,7 +118,8 @@ def add_person(request):
 
             # Generate vaccination card
             template_path = 'vaccination_card.html'
-            context = {'myvar': 'this is your template context'}
+            details = Person.objects.get(pk=person.user_id)
+            context = {'details': details}
             # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="vaccination_card.pdf"'
@@ -245,7 +246,7 @@ def second_vaccination(request, user_id):
             )
             second.save()
 
-        return render(request, 'index.html')
+        return redirect('all')
 
     else:
         form = SecondVaccinationForm()
@@ -260,11 +261,12 @@ def second_vaccination(request, user_id):
 # persons who have completed both vaccinations
 @login_required(login_url='login')
 def attended_first_second_vaccination(request):
-    results = Person.objects.filter(
+    persons = Person.objects.filter(
         secondvaccination__date_of_first_vaccination__isnull=False)
-    for result in results:
-        print(result)
-    return render(request, 'index.html')
+    context = {
+        'persons':persons
+    }
+    return render(request, 'second_vaccination_details.html', context)
 
 @login_required(login_url='login')
 def view_person(request, user_id):
