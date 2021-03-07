@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}<div class="card-body">
   <div class="table-responsive">
+
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="container-fluid p-0" style="font-size: x-large;">
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <b>{{ message }}</b>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
     <table class="table">
       <thead class=" text-primary">
         <th>

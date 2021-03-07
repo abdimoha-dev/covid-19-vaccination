@@ -1,8 +1,10 @@
 from datetime import date
 from django.db.models import Q
-from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
+from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect,HttpResponseRedirect
+
 from django.http import HttpResponse, Http404, FileResponse
 
+from django.contrib import messages
 from .models import Person, Schedule, SecondVaccination
 
 from django.contrib.auth.models import User
@@ -39,7 +41,7 @@ from .serializers import PersonSerializer
 
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'sidebar.html')
+    return render(request, 'home.html')
 
 # login
 
@@ -52,9 +54,11 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
+            messages.success(request, 'logged in successfully')
             return redirect('home')
         else:
-            return render(request, 'index.html')
+            messages.success(request, 'Incorect username/password')
+            return redirect('login')
 
     else:  # Get method ->
         # check if test user exists
@@ -75,10 +79,10 @@ def user_login(request):
 # logout
 # @login_required(login_url='login')
 
-
+@login_required(login_url='login')
 def user_logout(request):
     logout(request)
-    return HttpResponse('user_login')
+    return HttpResponsePermanentRedirect('login')
 
 
 # create vaccinated user
@@ -183,11 +187,11 @@ def add_person(request):
 
 
 # Edit a vaccinated person details
+@login_required(login_url='login')
 def edit_person(request, pk):
     if request.method == 'GET':
         person = Person.objects.get(user_id=pk)
-        print('llllllllll', person.dob)
-        
+
         context = {'person': person}
         return render(request, 'edit_person.html', context)
 
@@ -220,10 +224,12 @@ def edit_person(request, pk):
                                                    occupation=occupation,
                                                    vaccine_name=vaccine_name,
                                                    comorbidity=comorbidity)
+        messages.success(request, 'user updated successfully.')
         return redirect('all')
 
 
 # fetch all vaccinated person
+@login_required(login_url='login')
 def all_vaccinated_persons(request):
     persons = Person.objects.all()
 
@@ -234,11 +240,13 @@ def all_vaccinated_persons(request):
 
 
 # delete vaccinated user using ID
+@login_required(login_url='login')
 def delete_person(request, person_id):
     try:
         person = Person.objects.filter(pk=person_id)
         person.delete()
     
+        messages.warning(request, 'Person deleted successfully')
         return redirect('all')
     except Person.DoesNotExist:
         raise Http404("person does not exist")
@@ -279,7 +287,7 @@ def second_vaccination(request, user_id):
                 effects=effectss,
             )
             second.save()
-
+        messages.success(request, 'Second vaccination added successfully')
         return redirect('all')
 
     else:
@@ -310,7 +318,8 @@ def view_person(request, user_id):
         context = {'user_details': user_details}
         return render(request, 'view_person.html', context)
  
-# vaccination statistics    
+# vaccination statistics
+@login_required(login_url='login')    
 def small_stats(request):
     Total_vaccinated = Person.objects.all().count()
     men_vaccinated = Person.objects.filter(gender='Male').count()
