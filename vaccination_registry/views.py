@@ -183,9 +183,11 @@ def add_person(request):
 
 
 # Edit a vaccinated person details
-def edit_person(request, person_id):
+def edit_person(request, pk):
     if request.method == 'GET':
-        person = Person.objects.get(pk=person_id)
+        person = Person.objects.get(user_id=pk)
+        print('llllllllll', person.dob)
+        
         context = {'person': person}
         return render(request, 'edit_person.html', context)
 
@@ -202,11 +204,15 @@ def edit_person(request, person_id):
         occupation = request.POST.get('occupation')
         vaccine_name = request.POST.get('vaccineAdministered')
         comorbidity = request.POST.get('comorbidity')
+        
+        #convert date to number form
+        date = '2020-03-05'
+        
 
-        Person.objects.filter(id=person_id).update(first_name=first_name,
+        Person.objects.filter(user_id=pk).update(first_name=first_name,
                                                    last_name=last_name,
                                                    gender=gender,
-                                                   dob=dob,
+                                                   dob=date,
                                                    age=age,
                                                    place_of_residence=place_of_residence,
                                                    phone_number=phone_number,
@@ -214,7 +220,7 @@ def edit_person(request, person_id):
                                                    occupation=occupation,
                                                    vaccine_name=vaccine_name,
                                                    comorbidity=comorbidity)
-        return render(request, 'add_person.html')
+        return redirect('all')
 
 
 # fetch all vaccinated person
@@ -303,7 +309,8 @@ def view_person(request, user_id):
         user_details = Person.objects.get(pk=user_id)
         context = {'user_details': user_details}
         return render(request, 'view_person.html', context)
-    
+ 
+# vaccination statistics    
 def small_stats(request):
     Total_vaccinated = Person.objects.all().count()
     men_vaccinated = Person.objects.filter(gender='Male').count()
@@ -328,7 +335,6 @@ def small_stats(request):
         
     }
     return render(request,'small_stats.html', context)
-    # xyz
 
 
 ###################################

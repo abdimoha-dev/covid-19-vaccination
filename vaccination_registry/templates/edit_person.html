@@ -1,30 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Edit person</h1>
-<form action="{% url 'edit_person' person_id=person.id %}" method="post">
-
-    {% csrf_token %}
-    <label for="firstname">First Name</label>
-    <input type="text" class="form-control" name="firstname" value="{{person.first_name}}" placeholder="Enter first name">
-    <label for="secondname">Last Name</label>
-    <input type="text" class="form-control" name="lastname" value="{{person.last_name}}" placeholder="Enter last name">
-    <label for="firstname">Gender</label>
-    <input type="text" class="form-control" name="gender" value="{{person.gender}}" placeholder="Gender">
-    <label for="dob">Date of birth</label>
-    <input type="text" class="form-control" name="dob" value="{{person.dob}}" placeholder="date of birth">
-    <label for="firstname">Place of residence</label>
-    <input type="text" class="form-control" name="placeofresidence" value="{{person.place_of_residence}}" placeholder="Place of residence">
-    <label for="phoneNumber">phone Number</label>
-    <input type="text" class="form-control" name="phonenumber" value="{{person.phone_number}}" placeholder="phone Number">
-    <label for="emailaddress">email address</label>
-    <input type="text" class="form-control" name="email" value="{{person.email}}" placeholder="enter email">
-    <label for="Occupation">Occupation</label>
-    <input type="text" class="form-control" name="occupation" value="{{person.occupation}}" placeholder="Occupation">
-    <label for="comorbidity">Comorbidity</label>
-    <input type="text" class="form-control" name="comorbidity" value="{{person.comorbidity}}" placeholder="Comorbidity">
-    <label for="VaccineAdministered">Vaccine Administered</label>
-    <input type="text" class="form-control" name="vaccineAdministered" value="{{person.vaccine_name}}" placeholder="Vaccine Administered">
-
+<form action="{% url 'edit_person' person.user_id %}" method="post">
+    <div class="row">
+        <div class="col-md-2">
+            {% csrf_token %}
+            <label for="firstname">First Name</label>
+            <input type="text" class="form-control" name="firstname" value="{{person.first_name}}"
+                placeholder="Enter first name">
+            <label for="secondname">Last Name</label>
+            <input type="text" class="form-control" name="lastname" value="{{person.last_name}}"
+                placeholder="Enter last name">
+            <label for="firstname">Gender</label>
+            <input type="text" class="form-control" name="gender" value="{{person.gender}}" placeholder="Gender">
+            <label for="dob">Date of birth</label>
+            <input type="text" class="form-control" name="dob" value="{{person.dob}}" placeholder="date of birth">
+            <label for="firstname">Place of residence</label>
+            <input  class="form-control" name="placeofresidence" value="{{person.place_of_residence}}"
+                placeholder="Place of residence">
+            <label for="phoneNumber">phone Number</label>
+            <input type="text" class="form-control" name="phonenumber" value="{{person.phone_number}}"
+                placeholder="phone Number">
+            <label for="emailaddress">email address</label>
+            <input type="text" class="form-control" name="email" value="{{person.email}}" placeholder="enter email">
+            <label for="Occupation">Occupation</label>
+            <input type="text" class="form-control" name="occupation" value="{{person.occupation}}"
+                placeholder="Occupation">
+            <label for="comorbidity">Comorbidity</label>
+            <input type="text" class="form-control" name="comorbidity" value="{{person.comorbidity}}"
+                placeholder="Comorbidity">
+            <label for="VaccineAdministered">Vaccine Administered</label>
+            <input type="text" class="form-control" name="vaccineAdministered" value="{{person.vaccine_name}}"
+                placeholder="Vaccine Administered">
+        </div>
+    </div>
     <div class="tab-pane" id="thruee">
         <button type="submit" class="btn btn-success">Submit</button>
     </div>

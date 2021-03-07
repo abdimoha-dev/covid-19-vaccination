@@ -3,19 +3,24 @@
 
 <h1>Create vaccinated person</h1>
 <form enctype="multipart/form-data" action="add_person" method="post" >
+    <div class="row">
+        <div class="col-md-2">    
+        {% csrf_token %}
+        First Name: {{form.first_name}}<br>
+        Last Name: {{form.last_name}}<br>
+        Gender : {{form.gender}}<br>
+        Date of Birth: {{form.dob}}<br>
+        place Of Residence: {{form.place_of_residence}}<br>
+        Phone Number: {{form.phone_number}}<br>
+        Email: {{form.email}}<br>
+        Occupation: {{form.occupation}}<br>
+        Vaccine Name: {{form.vaccine_name}}<br>
+        Commorbidity: {{form.comorbidity}}<br>
+        Date Of Vaccination: {{form.date_of_vaccination}}<br>
+    </div>
+    </div>
 
-    {% csrf_token %}
-    First Name: {{form.first_name}}<br>
-    Last Name: {{form.last_name}}<br>
-    Gender : {{form.gender}}<br>
-    Date of Birth: {{form.dob}}<br>
-    place Of Residence: {{form.place_of_residence}}<br>
-    Phone Number: {{form.phone_number}}<br>
-    Email: {{form.email}}<br>
-    Occupation: {{form.occupation}}<br>
-    Vaccine Name: {{form.vaccine_name}}<br>
-    Commorbidity: {{form.comorbidity}}<br>
-    Date Of Vaccination: {{form.date_of_vaccination}}<br>
+
 
     <div class="tab-pane" id="thruee">
         <button type="submit" class="btn btn-success">Submit and print vaccination Card</button>
