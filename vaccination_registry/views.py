@@ -18,11 +18,6 @@ from .forms import PersonForm, SecondVaccinationForm
 from covidvaccination.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 
-import reportlab
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from pdf_annotate import PdfAnnotator, Appearance, Location
-
 
 from django.http import HttpResponse
 from django.template.loader import get_template

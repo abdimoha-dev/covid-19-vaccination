@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 
 #security features
+# set environment variable
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,7 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': 'cdc',
+        'NAME': 'cdc',
         # 'USER': config('DATABASE_USER'), #'postgres',
         # 'PASSWORD': config('DATABASE_PASSWORD'),
         # 'HOST': 'localhost',
