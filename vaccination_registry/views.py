@@ -163,19 +163,22 @@ def add_person(request):
             # if error
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
-            # return redirec
+            messages.success(request, 'person Added successfully.')
+
+            
+            # return response('all')
 
             # send mail
-            # subject = "welcome to emails"
-            # message = "Testing This Email"
-            # recepient = email
-            # send_mail(subject,
-            #             message,
-            #             'chemianhealth@gmail.com',
-            #             [recepient],
-            #             fail_silently= True)
+            subject = "welcome to emails"
+            message = "Testing This Email"
+            recepient = email
+            send_mail(subject,
+                        message,
+                        'chemianhealth@gmail.com',
+                        [recepient],
+                        fail_silently= True)
 
-            return render(request, 'index.html')
+            return response
 
     else:
         form = PersonForm()
