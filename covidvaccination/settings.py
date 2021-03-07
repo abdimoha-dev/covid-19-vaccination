@@ -78,8 +78,11 @@ WSGI_APPLICATION = 'covidvaccination.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        
         'NAME': 'cdc',
+        # uncomment these lines to setup production server
+        
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'USER': config('DATABASE_USER'), #'postgres',
         # 'PASSWORD': config('DATABASE_PASSWORD'),
         # 'HOST': 'localhost',
@@ -109,8 +112,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Email authentication
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'chemianhealth@gmail.com'
-EMAIL_HOST_PASSWORD = 'Bootyeater@69'
+EMAIL_HOST_USER = 'covid19.vaccination19'
+EMAIL_HOST_PASSWORD = 'abdimohammed123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False

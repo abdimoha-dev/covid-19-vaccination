@@ -30,15 +30,11 @@ from .serializers import PersonSerializer
 
 
 # home
-
-
 @login_required(login_url='login')
 def home(request):
     return render(request, 'home.html')
 
 # login
-
-
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -71,8 +67,6 @@ def user_login(request):
 
 # logout
 # @login_required(login_url='login')
-
-
 @login_required(login_url='login')
 def user_logout(request):
     logout(request)
@@ -80,8 +74,6 @@ def user_logout(request):
 
 
 # create vaccinated user
-
-
 @login_required(login_url='login')
 def add_person(request):
     # person_age = 10
@@ -108,12 +100,6 @@ def add_person(request):
             comorbidity = request.POST.get('comorbidity')
             date_of_vaccination = request.POST.get('date_of_vaccination')
 
-            # today = date.today()
-            # birthDate = datetime.strptime(dob, '%Y-%m-%d').date()
-            # age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))
-
-            # print(age)
-            # bbc
 
             person = Person(first_name=first_name,
                             last_name=last_name,
@@ -166,17 +152,6 @@ def add_person(request):
             messages.success(request, 'person Added successfully.')
 
             
-            # return response('all')
-
-            # send mail
-            subject = "welcome to emails"
-            message = "Testing This Email"
-            recepient = email
-            send_mail(subject,
-                        message,
-                        'chemianhealth@gmail.com',
-                        [recepient],
-                        fail_silently= True)
 
             return response
 
@@ -293,11 +268,6 @@ def second_vaccination(request, user_id):
     else:
         form = SecondVaccinationForm()
         user_details = Person.objects.get(pk=user_id)
-        # date_difference = datetime.now().date() - user_details.date_of_vaccination
-        # print('kichwa',date_difference[:2] )
-        # if date_difference[:2] < 4:
-        #     return render(request, 'index.html')
-        # else:
         return render(request, 'second_vaccination.html', {'form': form, 'user_details': user_details})
 
 # persons who have completed both vaccinations
@@ -345,10 +315,6 @@ def small_stats(request):
         'children_vaccinated': children_vaccinated,
         'scheduled_vaccinations': scheduled_vaccinations,
         'vaccine_type_administered': vaccine_type_administered
-
-
-
-
     }
     return render(request, 'small_stats.html', context)
 
@@ -371,8 +337,6 @@ def apiOverView(request):
     return Response(api_urls)
 
 # Get list of all vaccinated persons
-
-
 @api_view(['GET'])
 def vaccinatedList(request):
     persons = Person.objects.all()
@@ -380,8 +344,6 @@ def vaccinatedList(request):
     return Response(serializer.data)
 
 # Fetch individual persons details
-
-
 @api_view(['GET'])
 def personDetails(request, pk):
     persons = Person.objects.get(user_id=pk)
@@ -389,8 +351,6 @@ def personDetails(request, pk):
     return Response(serializer.data)
 
 # create person using POST method
-
-
 @api_view(['POST'])
 def personCreate(request):
     serializer = PersonSerializer(data=request.data)
@@ -400,8 +360,6 @@ def personCreate(request):
     return Response(serializer.data)
 
 # update person using user_id
-
-
 @api_view(['POST'])
 def updatePerson(request, pk):
     person = Person.objects.get(user_id=pk)
