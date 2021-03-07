@@ -37,6 +37,12 @@ class Person(models.Model):
         super(Person, self).save(*args, **kwargs)
             
         super().save(*kwargs)
+        
+    def __str__(self):
+        return self.first_name
+    
+    class Meta:
+        verbose_name_plural = 'persons'
 
 
     
