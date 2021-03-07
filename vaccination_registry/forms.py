@@ -1,10 +1,10 @@
 from django import forms
-from phonenumber_field.formfields import PhoneNumberField
 
 
 GENDER_CHOICES = (('Male', 'Male'), ('Female', 'Female'))
 VACCINE_CHOICES = (('AstraZeneca', 'AstraZeneca'),
                    ('Moderna', 'Moderna'), ('Pfizer', 'Pfizer'))
+COMORBIDITY_CHOICES = (('None','None'), ('TB','TB'),('HIV','HIV'))
 
 
 class DateInput(forms.DateInput):
@@ -19,7 +19,6 @@ class PersonForm(forms.Form):
     dob = forms.DateField(widget=DateInput)
     place_of_residence = forms.CharField(label='First Name', max_length=50)
     phone_number = forms.CharField()
-    # phone_number = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': ('Phone')}),label=("Phone number"), required=False)
     email = forms.EmailField(label='Email')
     occupation = forms.CharField(label='Occupation')
     vaccine_name = forms.CharField(

@@ -10,23 +10,23 @@ from django.utils import timezone
 
 class Person(models.Model):
     user_id = models.CharField(primary_key=True,max_length=100, null=False, default=None, unique=True, blank=False) # editable=False,
-    first_name = models.CharField(max_length=50, default="kings")
-    last_name = models.CharField(max_length=50, default="kings")
-    gender = models.CharField(max_length=100, default="male")
+    first_name = models.CharField(max_length=50, default="Fist")
+    last_name = models.CharField(max_length=50, default="Name")
+    gender = models.CharField(max_length=100, default="Male")
     dob = models.DateField(default=timezone.now)
     age = models.IntegerField(default=16)
-    place_of_residence = models.CharField(max_length=50, default='isiolo')
+    place_of_residence = models.CharField(max_length=50, default='Isiolo')
     phone_number = models.CharField(max_length=20, default=190)
     email = models.EmailField(default="kongo@gmail.com")
-    occupation = models.CharField(max_length=20,default="kings")
-    vaccine_name = models.CharField(max_length=20,default="kings")
+    occupation = models.CharField(max_length=20,default="Unemplyoyed")
+    vaccine_name = models.CharField(max_length=20,default="Pfizer")
     date_of_vaccination = models.DateField(default=timezone.now)
-    comorbidity = models.CharField(max_length=50, default="kings")
+    comorbidity = models.CharField(max_length=50, default="None")
     
     # generate userIDs
     def save(self, *args, **kwargs):
         if not self.user_id:
-            prefix = 'COVIDKENYA{}'
+            prefix = 'COVIDKE-'
             prev_instances=self.__class__.objects.filter(user_id__contains=prefix)
             if prev_instances.exists():
                 last_instance_id = prev_instances.last().user_id[-4:]

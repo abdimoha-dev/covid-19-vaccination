@@ -42,20 +42,23 @@ button:hover, a:hover {
 </head>
 <body>
 
-<h2 style="text-align:center">User Profile Card</h2>
+<h2 style="text-align:center">COVID-19 VACCINATION CARD</h2>
 
 <div class="card">
   <img src="/w3images/team2.jpg" alt="John" style="width:100%">
-  <h1>John Doe</h1>
-  <p class="title">CEO & Founder, Example</p>
-  <p>Harvard University</p>
+  <h1><b>Name: </b>{{details.first_name}} {{details.last_name}}</h1>
+  <p class="title">Patient Identifier: {{details.user_id}}</p>
+  <p>Location: {{details.place_of_residence}}</p>
+  <p>Date Vaccinated: {{details.date_of_vaccination}}</p>
+  <p>Next Vaccinatio Date: {{next_vaccination_date}}</p>
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
     <a href="#"><i class="fa fa-twitter"></i></a>  
     <a href="#"><i class="fa fa-linkedin"></i></a>  
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
-  <p><button>Contact</button></p>
+  <!-- <p><button>place_of_residence</button></p> -->
+  
 </div>
 
 </body>

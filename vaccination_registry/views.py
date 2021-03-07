@@ -1,6 +1,6 @@
 from datetime import date
 from django.db.models import Q
-from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect,HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 
 from django.http import HttpResponse, Http404, FileResponse
 
@@ -32,8 +32,6 @@ from xhtml2pdf import pisa
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PersonSerializer
-
-
 
 
 # home
@@ -79,6 +77,7 @@ def user_login(request):
 # logout
 # @login_required(login_url='login')
 
+
 @login_required(login_url='login')
 def user_logout(request):
     logout(request)
@@ -94,14 +93,14 @@ def add_person(request):
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
-            
-            #calculate age from date of birth
+
+            # calculate age from date of birth
             dob = request.POST.get('dob')
             today = date.today()
             birthDate = datetime.strptime(dob, '%Y-%m-%d').date()
-            calculated_age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
-            
-            
+            calculated_age = today.year - birthDate.year - \
+                ((today.month, today.day) < (birthDate.month, birthDate.day))
+
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             gender = request.POST.get('gender')
@@ -116,11 +115,10 @@ def add_person(request):
 
             # today = date.today()
             # birthDate = datetime.strptime(dob, '%Y-%m-%d').date()
-            # age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
-            
-            # print(age) 
+            # age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))
+
+            # print(age)
             # bbc
-            
 
             person = Person(first_name=first_name,
                             last_name=last_name,
@@ -151,7 +149,10 @@ def add_person(request):
             # Generate vaccination card
             template_path = 'vaccination_card.html'
             details = Person.objects.get(pk=person.user_id)
-            context = {'details': details}
+            # next_vaccination = Schedule.objects.filter(user=person.user_id).values(
+                # 'date_of_second_vaccination')
+            context = {'details': details,
+                       'next_vaccination_date': next_vaccination_date}
             # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="vaccination_card.pdf"'
@@ -162,9 +163,9 @@ def add_person(request):
             # create a pdf
             pisa_status = pisa.CreatePDF(
                 html, dest=response)
-            
-            return redirect('home')
-            # if error 
+
+            # return redirect('home')
+            # if error
             if pisa_status.err:
                 return HttpResponse('We had some errors <pre>' + html + '</pre>')
             return response
@@ -208,22 +209,21 @@ def edit_person(request, pk):
         occupation = request.POST.get('occupation')
         vaccine_name = request.POST.get('vaccineAdministered')
         comorbidity = request.POST.get('comorbidity')
-        
-        #convert date to number form
+
+        # convert date to number form
         date = '2020-03-05'
-        
 
         Person.objects.filter(user_id=pk).update(first_name=first_name,
-                                                   last_name=last_name,
-                                                   gender=gender,
-                                                   dob=date,
-                                                   age=age,
-                                                   place_of_residence=place_of_residence,
-                                                   phone_number=phone_number,
-                                                   email=email,
-                                                   occupation=occupation,
-                                                   vaccine_name=vaccine_name,
-                                                   comorbidity=comorbidity)
+                                                 last_name=last_name,
+                                                 gender=gender,
+                                                 dob=date,
+                                                 age=age,
+                                                 place_of_residence=place_of_residence,
+                                                 phone_number=phone_number,
+                                                 email=email,
+                                                 occupation=occupation,
+                                                 vaccine_name=vaccine_name,
+                                                 comorbidity=comorbidity)
         messages.success(request, 'user updated successfully.')
         return redirect('all')
 
@@ -245,7 +245,7 @@ def delete_person(request, person_id):
     try:
         person = Person.objects.filter(pk=person_id)
         person.delete()
-    
+
         messages.warning(request, 'Person deleted successfully')
         return redirect('all')
     except Person.DoesNotExist:
@@ -268,6 +268,8 @@ def search_persons(request):
         # query =request.GET.get('q')
 
 # add 2nd vaccination
+
+
 @login_required(login_url='login')
 def second_vaccination(request, user_id):
     if request.method == 'POST':
@@ -301,25 +303,31 @@ def second_vaccination(request, user_id):
         return render(request, 'second_vaccination.html', {'form': form, 'user_details': user_details})
 
 # persons who have completed both vaccinations
+
+
 @login_required(login_url='login')
 def attended_first_second_vaccination(request):
     persons = Person.objects.filter(
         secondvaccination__date_of_first_vaccination__isnull=False)
     context = {
-        'persons':persons
+        'persons': persons
     }
     return render(request, 'second_vaccination_details.html', context)
 
 # show vaccinated person's details
+
+
 @login_required(login_url='login')
 def view_person(request, user_id):
     if request.method == 'GET':
         user_details = Person.objects.get(pk=user_id)
         context = {'user_details': user_details}
         return render(request, 'view_person.html', context)
- 
+
 # vaccination statistics
-@login_required(login_url='login')    
+
+
+@login_required(login_url='login')
 def small_stats(request):
     Total_vaccinated = Person.objects.all().count()
     men_vaccinated = Person.objects.filter(gender='Male').count()
@@ -328,49 +336,54 @@ def small_stats(request):
     children_vaccinated = Person.objects.filter(age__lte=18).count()
     second_vaccinations = SecondVaccination.objects.all().count()
     scheduled_vaccinations = Schedule.objects.all().count()
-    vaccine_type_administered = Person.objects.values('vaccine_name').distinct().count()
-    
+    vaccine_type_administered = Person.objects.values(
+        'vaccine_name').distinct().count()
+
     context = {
-        'Total_vaccinated':Total_vaccinated,
-        'men_vaccinated' : men_vaccinated,
-        'female_vaccinated' : female_vaccinated,
-        'adults_vaccinated' : adults_vaccinated,
-        'children_vaccinated' : children_vaccinated,
+        'Total_vaccinated': Total_vaccinated,
+        'men_vaccinated': men_vaccinated,
+        'female_vaccinated': female_vaccinated,
+        'adults_vaccinated': adults_vaccinated,
+        'children_vaccinated': children_vaccinated,
         'scheduled_vaccinations': scheduled_vaccinations,
-        'vaccine_type_administered' :vaccine_type_administered
-        
-        
-        
-        
+        'vaccine_type_administered': vaccine_type_administered
+
+
+
+
     }
-    return render(request,'small_stats.html', context)
+    return render(request, 'small_stats.html', context)
 
 
 ###################################
 ###### Django Rest APIs############
-################################### 
+###################################
 
 # Get all available APIs
 @api_view(['GET'])
 def apiOverView(request):
     api_urls = {
-        'list' : '/vaccinated-list/',
-        'detail' : '/person/detail/<str:pk>/',
-        'create' : '/create/person/',
-        'update' : '/vaccinated/update/<str:pk>/',
-        'delete' : '/vaccinated/delete/<str:pk>/',
+        'list': '/vaccinated-list/',
+        'detail': '/person/detail/<str:pk>/',
+        'create': '/create/person/',
+        'update': '/vaccinated/update/<str:pk>/',
+        'delete': '/vaccinated/delete/<str:pk>/',
     }
-    
+
     return Response(api_urls)
 
 # Get list of all vaccinated persons
+
+
 @api_view(['GET'])
 def vaccinatedList(request):
     persons = Person.objects.all()
     serializer = PersonSerializer(persons, many=True)
     return Response(serializer.data)
-   
-# Fetch individual persons details 
+
+# Fetch individual persons details
+
+
 @api_view(['GET'])
 def personDetails(request, pk):
     persons = Person.objects.get(user_id=pk)
@@ -378,27 +391,32 @@ def personDetails(request, pk):
     return Response(serializer.data)
 
 # create person using POST method
+
+
 @api_view(['POST'])
 def personCreate(request):
     serializer = PersonSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        
+
     return Response(serializer.data)
 
 # update person using user_id
+
+
 @api_view(['POST'])
 def updatePerson(request, pk):
     person = Person.objects.get(user_id=pk)
     serializer = PersonSerializer(instance=person, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        
+
     return Response(serializer.data)
 
+
 @api_view(['DELETE'])
-def personDelete(request,pk):
-    person = Person.objects.get(user_id=pk) 
+def personDelete(request, pk):
+    person = Person.objects.get(user_id=pk)
     person.delete()
-    
+
     return Response('Person deleted successfully')

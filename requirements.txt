@@ -1,5 +1,7 @@
 # pip3 install django-phonenumber-field[phonenumbers]
-pip3 install django-phone-field
-pip3 install pdf-annotate
-pip3 install xhtml2pdf
-pip3 install python-decouple
+# pip3 install django-phone-field
+# pip3 install pdf-annotate
+# pip3 install xhtml2pdf
+# pip3 install python-decouple
+python-decouple==3.4
+xhtml2pdf==0.2.5
