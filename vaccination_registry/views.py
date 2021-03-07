@@ -1,3 +1,4 @@
+from datetime import date
 from django.db.models import Q
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
 from django.http import HttpResponse, Http404, FileResponse
@@ -26,11 +27,15 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 # home
+
+
 @login_required(login_url='login')
 def home(request):
     return render(request, 'sidebar.html')
 
 # login
+
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -67,19 +72,28 @@ def user_logout(request):
     logout(request)
     return HttpResponse('user_login')
 
+
 # create vaccinated user
+
 
 @login_required(login_url='login')
 def add_person(request):
-    person_age = 10
+    # person_age = 10
     if request.method == 'POST':
         form = PersonForm(request.POST)
         if form.is_valid():
+            
+            #calculate age from date of birth
+            dob = request.POST.get('dob')
+            today = date.today()
+            birthDate = datetime.strptime(dob, '%Y-%m-%d').date()
+            calculated_age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
+            
+            
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             gender = request.POST.get('gender')
-            dob = request.POST.get('dob')
-            age = person_age
+            age = calculated_age
             place_of_residence = request.POST.get('place_of_residence')
             phone_number = request.POST.get('phone_number')
             email = request.POST.get('email')
@@ -87,14 +101,20 @@ def add_person(request):
             vaccine_name = request.POST.get('vaccine_name')
             comorbidity = request.POST.get('comorbidity')
             date_of_vaccination = request.POST.get('date_of_vaccination')
-            photo=form.cleaned_data.get("photo") 
+
+            # today = date.today()
+            # birthDate = datetime.strptime(dob, '%Y-%m-%d').date()
+            # age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
+            
+            # print(age) 
+            # bbc
             
 
             person = Person(first_name=first_name,
                             last_name=last_name,
                             gender=gender,
                             dob=dob,
-                            age=age,
+                            age=calculated_age,
                             place_of_residence=place_of_residence,
                             phone_number=phone_number,
                             email=email,
@@ -268,6 +288,7 @@ def attended_first_second_vaccination(request):
     }
     return render(request, 'second_vaccination_details.html', context)
 
+# show vaccinated person's details
 @login_required(login_url='login')
 def view_person(request, user_id):
     if request.method == 'GET':
@@ -275,3 +296,16 @@ def view_person(request, user_id):
         context = {'user_details': user_details}
         return render(request, 'view_person.html', context)
     
+def small_stats(request):
+    Total_vaccinated = Person.objects.all().count()
+    men_vaccinated = Person.objects.filter(gender='Male').count()
+    female_vaccinated = Person.objects.filter(gender='Female').count()
+    adults_vaccinated = Person.objects.filter(age__gte=18).count()
+    children_vaccinated = Person.objects.filter(age__lte=18).count()
+    second_vaccinations = SecondVaccination.objects.all().count()
+    scheduled_vaccinations = Schedule.objects.all().count()
+    vaccine_type_administered = Person.objects.values('vaccine_name').distinct().count()
+    
+    print(vaccine_type_administered)
+    # xyz
+

@@ -15,5 +15,6 @@ urlpatterns = [
     path('search/', views.search_persons, name='search'),
     path('secondvaccination/<str:user_id>', views.second_vaccination, name='secondvaccination'),
     path('relatedvaccinations', views.attended_first_second_vaccination, name ='related'),
-    path('view_person/<str:user_id>', views.view_person, name = 'view_person')
+    path('view_person/<str:user_id>', views.view_person, name = 'view_person'),
+    path('small_stats', views.small_stats, name = 'small_stats')
 ]
