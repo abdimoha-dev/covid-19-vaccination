@@ -109,14 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Email authentication
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'covid19.vaccination19'
-EMAIL_HOST_PASSWORD = 'abdimohammed123'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 
 
 # Internationalization

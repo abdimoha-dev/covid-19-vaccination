@@ -15,7 +15,6 @@ from datetime import datetime, timedelta
 
 from .forms import PersonForm, SecondVaccinationForm
 
-from covidvaccination.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 
 
