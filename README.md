@@ -2,7 +2,7 @@
 
 # Project Description
 A python/Django COVID-19 vaccination registry project to efficiently manage people vaccinated againts covid-19. The system was developed using python3 and django 3.17.  
-All CRUD operations i.e - Create a person, Read all vaccinated persons, Update a vaccinated person's details, Delete a vaccinated person and Search for a vaccinated person using multiple parameters has been implemented
+All CRUD operations i.e - Create a person, Read all vaccinated persons, Update a vaccinated person's details, Delete a vaccinated person and Search for a vaccinated person using multiple parameters has been implemented.
 
 ## Installation $ setup 
 - Run: git clone https://github.com/abdimoha-dev/covid-19-vaccination.git
