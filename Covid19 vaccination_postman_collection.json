@@ -1,0 +1,183 @@
+{
+	"id": "beb37692-b9a0-3c22-c5d1-71374d8768d2",
+	"name": "Covid19 vaccination registry",
+	"description": "Api collection for covid -19 vaccination registy",
+	"order": [
+		"150edad9-946e-71ee-9291-a84d7fcf58f1",
+		"0f4a0373-b480-d1c7-661f-880ccc18d218",
+		"3c2bdc62-db8c-f9e0-c6e8-55fcefecbceb",
+		"4137883a-2a61-cabb-2029-3bb8be51f77c",
+		"d61d5ba8-23c5-d12d-b2a0-3fe54ecc4851"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1615192890639,
+	"owner": "4343550",
+	"public": false,
+	"requests": [
+		{
+			"id": "0f4a0373-b480-d1c7-661f-880ccc18d218",
+			"headers": "Authorization: Basic dGVzdDp0ZXN0MTIz\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic dGVzdDp0ZXN0MTIz",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/vaccination/api/delete-person/COVIDKE-0001",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "DELETE",
+			"collectionId": "beb37692-b9a0-3c22-c5d1-71374d8768d2",
+			"data": null,
+			"dataMode": "params",
+			"name": "Delete user using ID",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615193169417,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "150edad9-946e-71ee-9291-a84d7fcf58f1",
+			"headers": "Authorization: Basic dGVzdDp0ZXN0MTIz\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic dGVzdDp0ZXN0MTIz",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/vaccination/api/vaccinated-list/",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "beb37692-b9a0-3c22-c5d1-71374d8768d2",
+			"data": null,
+			"dataMode": "params",
+			"name": "Get all vaccinated persons",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615192987444,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "3c2bdc62-db8c-f9e0-c6e8-55fcefecbceb",
+			"headers": "Authorization: Basic dGVzdDp0ZXN0MTIz\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic dGVzdDp0ZXN0MTIz",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/vaccination/api/person-details/COVIDKE-0002",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "beb37692-b9a0-3c22-c5d1-71374d8768d2",
+			"data": null,
+			"dataMode": "params",
+			"name": "GET user details using ID",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615193282262,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "4137883a-2a61-cabb-2029-3bb8be51f77c",
+			"headers": "Authorization: Basic dGVzdDp0ZXN0MTIz\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic dGVzdDp0ZXN0MTIz",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/vaccination/api/create-person/",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "beb37692-b9a0-3c22-c5d1-71374d8768d2",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Create a new person",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615193745679,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n    \"first_name\": \"Abdi\",\n    \"last_name\": \"Mohammed\",\n    \"gender\": \"Male\",\n    \"dob\": \"2021-03-08\",\n    \"age\": -1,\n    \"place_of_residence\": \"kataa\",\n    \"phone_number\": \"+254798700186\",\n    \"email\": \"abdymohammed@gmail.com\",\n    \"occupation\": \"doctor\",\n    \"vaccine_name\": \"AstraZeneca\",\n    \"date_of_vaccination\": \"2021-03-08\",\n    \"comorbidity\": \"wapi\"\n}"
+		},
+		{
+			"id": "d61d5ba8-23c5-d12d-b2a0-3fe54ecc4851",
+			"headers": "Authorization: Basic dGVzdDp0ZXN0MTIz\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Basic dGVzdDp0ZXN0MTIz",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8000/vaccination/api/update-person/COVIDKE-0003",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "beb37692-b9a0-3c22-c5d1-71374d8768d2",
+			"data": [],
+			"dataMode": "raw",
+			"name": "update existing person using ID",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1615193935482,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n        \"first_name\": \"Kamau\",\n        \"last_name\": \"Njoroge\",\n        \"gender\": \"Male\",\n        \"dob\": \"2021-03-08\",\n        \"age\": -1,\n        \"place_of_residence\": \"kataa\",\n        \"phone_number\": \"+254798700186\",\n        \"email\": \"abdymohammed@gmail.com\",\n        \"occupation\": \"doctor\",\n        \"vaccine_name\": \"AstraZeneca\",\n        \"date_of_vaccination\": \"2021-03-08\",\n        \"comorbidity\": \"wapi\"\n    }"
+		}
+	]
+}
