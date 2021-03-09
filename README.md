@@ -6,7 +6,7 @@ All CRUD operations i.e - Create a person, Read all vaccinated persons, Update a
 
 ## Installation $ setup 
 - Run: git clone https://github.com/abdimoha-dev/covid-19-vaccination.git
-- (Igore if using local development) -> To set up production server, create .env file in the project root directory for setting up database credentals and copy .envExample to provide guidance.  
+- (Igore if using local development) -> To set up production server, create .env file in the project root directory for setting up database credentals and copy .envExample to provide guidance. Uncomment DB setting if you are using POSTGRESQL.  
 - Run: cd covid-19-vaccination
 - Run: pip3 install -r requirements.txt  # To install all project dependencies  
 - Run: python3 manage.py makemigrations 
@@ -25,8 +25,8 @@ NB: As we are simulating a real life scenario, users cannot create their own acc
 - For testing purposes, login using the credentials displayed on the login page .ie Username: test  password: test123  
 - Congratulation!! you have successfully deployed the system and you are ready.
 
-## System prototype
-- The system prototype is available at: http://104.131.23.233:8000/ and http://104.131.23.233/vaccination/login
+## Test server
+- The system prototype is available at: http://104.131.23.233/vaccination/login
 
 ## Accessing the APIs
 Swagger API domentation provides a great way for interacting with the APIs

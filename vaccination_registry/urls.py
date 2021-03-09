@@ -1,4 +1,6 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
+
 
 from . import views
 
@@ -6,7 +8,7 @@ urlpatterns = [
     # path('', views.test, name='index'),
     # path('testuser', views.create_test_user, name ='create_test_user'),
     path('login', views.user_login, name='login'),
-    path('logout', views.logout, name='logout'),
+    path('logout', auth_views.LogoutView.as_view(), name='logout'),
     path('home', views.home, name='home'),
     path('add_person', views.add_person, name='add_person'),
     path('edit_person/<str:pk>', views.edit_person, name='edit_person'),
