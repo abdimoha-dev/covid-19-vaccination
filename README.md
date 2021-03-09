@@ -26,7 +26,7 @@ NB: As we are simulating a real life scenario, users cannot create their own acc
 - Congratulation!! you have successfully deployed the system and you are ready.
 
 ## System prototype
-- The system prototype is available at: http://104.131.23.233:8000/ and http://104.131.23.233
+- The system prototype is available at: http://104.131.23.233:8000/ and http://104.131.23.233/vaccination/login
 
 ## Accessing the APIs
 Swagger API domentation provides a great way for interacting with the APIs
