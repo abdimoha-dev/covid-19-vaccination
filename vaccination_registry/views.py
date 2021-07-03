@@ -28,10 +28,6 @@ from rest_framework.response import Response
 from .serializers import PersonSerializer
 
 
-# home
-@login_required(login_url='login')
-def home(request):
-    return render(request, 'home.html')
 
 # login
 def user_login(request):
@@ -65,11 +61,15 @@ def user_login(request):
             return render(request, 'accounts/login.html')
 
 # logout
-# @login_required(login_url='login')
 @login_required(login_url='login')
 def user_logout(request):
     logout(request)
     return HttpResponsePermanentRedirect('login')
+
+# home
+@login_required(login_url='login')
+def home(request):
+    return render(request, 'home.html')
 
 
 # create vaccinated user
@@ -115,7 +115,7 @@ def add_person(request):
             person.save()
 
             # Get date for next vaccination
-            period_btwn_vaccination = timedelta(days=4)
+            period_btwn_vaccination = timedelta(days=14)
             next_vaccination_date = period_btwn_vaccination + \
                 datetime.strptime(date_of_vaccination, '%Y-%m-%d')
 
@@ -129,11 +129,8 @@ def add_person(request):
             # Generate vaccination card
             template_path = 'vaccination_card.html'
             details = Person.objects.get(pk=person.user_id)
-            # next_vaccination = Schedule.objects.filter(user=person.user_id).values(
-                # 'date_of_second_vaccination')
             context = {'details': details,
                        'next_vaccination_date': next_vaccination_date}
-            # Create a Django response object, and specify content_type as pdf
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="vaccination_card.pdf"'
             # find the template and render it.
@@ -175,15 +172,13 @@ def edit_person(request, pk):
         gender = request.POST.get('gender')
         dob = request.POST.get('dob')
         age = person_age
+        date = '2020-03-05'
         place_of_residence = request.POST.get('placeofresidence')
         phone_number = request.POST.get('phonenumber')
         email = request.POST.get('email')
         occupation = request.POST.get('occupation')
         vaccine_name = request.POST.get('vaccineAdministered')
         comorbidity = request.POST.get('comorbidity')
-
-        # convert date to number form
-        date = '2020-03-05'
 
         Person.objects.filter(user_id=pk).update(first_name=first_name,
                                                  last_name=last_name,
@@ -313,7 +308,8 @@ def small_stats(request):
         'adults_vaccinated': adults_vaccinated,
         'children_vaccinated': children_vaccinated,
         'scheduled_vaccinations': scheduled_vaccinations,
-        'vaccine_type_administered': vaccine_type_administered
+        'vaccine_type_administered': vaccine_type_administered,
+        'second_vaccinations': second_vaccinations
     }
     return render(request, 'small_stats.html', context)
 
